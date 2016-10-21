@@ -1,20 +1,20 @@
 function [W,S] = ICA(X,C)
 %----------centering
-[N,M] = size(X); 					%to get the number of rows(signals) and columns(samples) of X    
+[N,M] = size(X); 				%to get the number of rows(signals) and columns(samples) of X    
 average= mean(X')';  				%to get the average value of each rows(X has been transposed)
 for i=1:N
     X(i,:)=X(i,:)-average(i)*ones(1,M); 
 end
 %---------whitening
-Cx = cov(X',1);    					%to calculate the cov of X
-[eigvector,eigvalue] = eig(Cx); 	%to get the eigenvector and eigenvalue of Cx
+Cx = cov(X',1);    				%to calculate the cov of X
+[eigvector,eigvalue] = eig(Cx); 		%to get the eigenvector and eigenvalue of Cx
 Whit = eigvector*eigvalue^(-1/2)*eigvector';  	
-X = Whit*X;   						%orthogonal matrix
+X = Whit*X;   					%orthogonal matrix
 %----------components extraction
 syms u;
 Maxcount=1e4;
 Critical=1e-4.*ones(N,1);			%the value of convergement
-W = rand(N,C);						%initialize the un-mixing mitrix
+W = rand(N,C);					%initialize the un-mixing mitrix
 ONE = ones(M,1);
 f(u) = -exp(-u^2/2);				%general purposes nonquadratic nonlinearity
 g(u) = u*exp(-u^2/2);
