@@ -1,8 +1,7 @@
-[a,Fsa] = audioread('a43.wav');
-aL = a(1:length(a));
-aR = a(length(a)+1:2*length(a));
-ad = aL+aR;
-[ad,A,W] = fastica(ad,'approach' ,'symm');
-
-% adObj = audioplayer(ad,Fsa);
-% play(adObj)
+function denoisingfilename = denosing(in)
+[wav,fs] = audioread(in);
+wavL = wav(1:length(wav));
+wavR = wav(length(wav)+1:2*length(wav));
+out = wavL-wavR;
+audiowrite(['denoising_',in],out,fs);
+denoisingfilename = ['denoising_',in];

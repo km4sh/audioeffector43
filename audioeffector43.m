@@ -22,7 +22,7 @@ function varargout = audioeffector43(varargin)
 
 % Edit the above text to modify the response to help audioeffector43
 
-% Last Modified by GUIDE v2.5 05-Oct-2016 00:42:56
+% Last Modified by GUIDE v2.5 26-Oct-2016 03:04:11
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -51,7 +51,20 @@ function audioeffector43_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to audioeffector43 (see VARARGIN)
-
+handles.mPEQ = multibandParametricEQ(...
+    'NumEQBands',10,...
+    'Frequencies',[31,63,127,255,511,1023,2047,4095,8191,16383],...
+    'QualityFactors',[1,1,1,1,1,1,1,1,1,1],...
+    'PeakGains',[0,0,0,0,0,0,0,0,0,0],...
+    'HasHighShelfFilter',true,...
+    'HighShelfCutoff',14000,...
+    'HighShelfSlope',0.3,...
+    'HighShelfGain',-5,...
+    'SampleRate',44100);
+guidata(hObject, handles);
+% visualize(handles.mPEQ);
+% there has a problem about fit the 'visualize' to a plot in gui.
+% 
 % Choose default command line output for audioeffector43
 handles.output = hObject;
 
@@ -74,18 +87,19 @@ varargout{1} = handles.output;
 
 
 % --- Executes on slider movement.
-function slider1_Callback(hObject, eventdata, handles)
-% hObject    handle to slider1 (see GCBO)
+function s31_Callback(hObject, eventdata, handles)
+% hObject    handle to s31 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+handles.mPEQ.PeakGains(1) = get(hObject,'Value');
+guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
 % --- Executes during object creation, after setting all properties.
-function slider1_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider1 (see GCBO)
+function s31_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to s31 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -96,18 +110,19 @@ end
 
 
 % --- Executes on slider movement.
-function slider2_Callback(hObject, eventdata, handles)
-% hObject    handle to slider2 (see GCBO)
+function s63_Callback(hObject, eventdata, handles)
+% hObject    handle to s63 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+handles.mPEQ.PeakGains(2) = get(hObject,'Value');
+guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
 % --- Executes during object creation, after setting all properties.
-function slider2_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider2 (see GCBO)
+function s63_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to s63 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -118,18 +133,19 @@ end
 
 
 % --- Executes on slider movement.
-function slider3_Callback(hObject, eventdata, handles)
-% hObject    handle to slider3 (see GCBO)
+function s127_Callback(hObject, eventdata, handles)
+% hObject    handle to s127 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+handles.mPEQ.PeakGains(3) = get(hObject,'Value');
+guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
 % --- Executes during object creation, after setting all properties.
-function slider3_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider3 (see GCBO)
+function s127_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to s127 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -140,18 +156,19 @@ end
 
 
 % --- Executes on slider movement.
-function slider4_Callback(hObject, eventdata, handles)
-% hObject    handle to slider4 (see GCBO)
+function s255_Callback(hObject, eventdata, handles)
+% hObject    handle to s255 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+handles.mPEQ.PeakGains(4) = get(hObject,'Value');
+guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
 % --- Executes during object creation, after setting all properties.
-function slider4_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider4 (see GCBO)
+function s255_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to s255 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -162,18 +179,19 @@ end
 
 
 % --- Executes on slider movement.
-function slider5_Callback(hObject, eventdata, handles)
-% hObject    handle to slider5 (see GCBO)
+function s511_Callback(hObject, eventdata, handles)
+% hObject    handle to s511 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+handles.mPEQ.PeakGains(5) = get(hObject,'Value');
+guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
 % --- Executes during object creation, after setting all properties.
-function slider5_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider5 (see GCBO)
+function s511_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to s511 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -184,18 +202,19 @@ end
 
 
 % --- Executes on slider movement.
-function slider6_Callback(hObject, eventdata, handles)
-% hObject    handle to slider6 (see GCBO)
+function s1k_Callback(hObject, eventdata, handles)
+% hObject    handle to s1k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+handles.mPEQ.PeakGains(6) = get(hObject,'Value');
+guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
 % --- Executes during object creation, after setting all properties.
-function slider6_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider6 (see GCBO)
+function s1k_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to s1k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -206,18 +225,19 @@ end
 
 
 % --- Executes on slider movement.
-function slider7_Callback(hObject, eventdata, handles)
-% hObject    handle to slider7 (see GCBO)
+function s2k_Callback(hObject, eventdata, handles)
+% hObject    handle to s2k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+handles.mPEQ.PeakGains(7) = get(hObject,'Value');
+guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
 % --- Executes during object creation, after setting all properties.
-function slider7_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider7 (see GCBO)
+function s2k_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to s2k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -228,18 +248,19 @@ end
 
 
 % --- Executes on slider movement.
-function slider8_Callback(hObject, eventdata, handles)
-% hObject    handle to slider8 (see GCBO)
+function s4k_Callback(hObject, eventdata, handles)
+% hObject    handle to s4k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+handles.mPEQ.PeakGains(8) = get(hObject,'Value');
+guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
 % --- Executes during object creation, after setting all properties.
-function slider8_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider8 (see GCBO)
+function s4k_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to s4k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -250,18 +271,19 @@ end
 
 
 % --- Executes on slider movement.
-function slider9_Callback(hObject, eventdata, handles)
-% hObject    handle to slider9 (see GCBO)
+function s8k_Callback(hObject, eventdata, handles)
+% hObject    handle to s8k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+handles.mPEQ.PeakGains(9) = get(hObject,'Value');
+guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
 % --- Executes during object creation, after setting all properties.
-function slider9_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider9 (see GCBO)
+function s8k_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to s8k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -272,18 +294,19 @@ end
 
 
 % --- Executes on slider movement.
-function slider10_Callback(hObject, eventdata, handles)
-% hObject    handle to slider10 (see GCBO)
+function s16k_Callback(hObject, eventdata, handles)
+% hObject    handle to s16k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+handles.mPEQ.PeakGains(10) = get(hObject,'Value');
+guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
 % --- Executes during object creation, after setting all properties.
-function slider10_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider10 (see GCBO)
+function s16k_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to s16k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -293,18 +316,70 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
 end
 
 
-% --- Executes on button press in pushbutton1.
-function pushbutton1_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
+% --- Executes on button press in openbutton.
+function openbutton_Callback(hObject, eventdata, handles)
+% hObject    handle to openbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+% MATT the ifs below are judging the members in handles struct,
+% MATT if them exist, then release for opening a new file.
+if isfield(handles,'fileReader')
+    release(handles.fileReader)
+end
+if isfield(handles,'deviceWriter')
+    release(handles.deviceWriter)
+end
+[filename,pathname]=uigetfile(...
+    {'*.wav','WAV Files(*.wav)';...
+    '*.*','All Files(*.*)'}, ...
+    'Select a *.wav file');
+if isequal(filename,0)||isequal(pathname,0)
+    return;
+else
+    set(handles.nowplay,'String',filename);
+end
+frameLength = 512;
+handles.fileReader = dsp.AudioFileReader(...
+    'Filename',filename,...
+    'SamplesPerFrame',frameLength);
+handles.deviceWriter = audioDeviceWriter(...
+    'SampleRate',handles.fileReader.SampleRate);
+setup(handles.deviceWriter,ones(frameLength,2));
+[wave] = audioread(filename);
+waveplot = 0.5*(wave(1:length(wave))+wave(length(wave)+1:2*length(wave)));
+plot(handles.axes2,waveplot);
+handles.filename = filename;
+guidata(hObject, handles);
 
-
-% --- Executes on button press in pushbutton2.
-function pushbutton2_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton2 (see GCBO)
+% --- Executes on button press in generatebutton.
+function generatebutton_Callback(hObject, eventdata, handles)
+% hObject    handle to generatebutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+val = get(handles.popupmenu1,'Value');
+switch val
+    case 1
+        return;
+    case 2
+        denosingfilename = denosing(handles.filename);
+end
+if isfield(handles,'fileReader')
+    release(handles.fileReader)
+end
+if isfield(handles,'deviceWriter')
+    release(handles.deviceWriter)
+end
+frameLength = 512;
+handles.fileReader = dsp.AudioFileReader(...
+    'Filename',denosingfilename,...
+    'SamplesPerFrame',frameLength);
+handles.deviceWriter = audioDeviceWriter(...
+    'SampleRate',handles.fileReader.SampleRate);
+setup(handles.deviceWriter,ones(frameLength,2));
+[wave] = audioread(denosingfilename);
+% waveplot = 0.5*(wave(1:length(wave))+wave(length(wave)+1:2*length(wave)));
+plot(handles.axes3,wave);
+guidata(hObject, handles);
 
 
 % --- Executes on selection change in popupmenu1.
@@ -330,65 +405,107 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton3.
-function pushbutton3_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton3 (see GCBO)
+% --- Executes on button press in playbutton1.
+function playbutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to playbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+while ~isDone(handles.fileReader)
+	handles.originalSignal = handles.fileReader();
+    switch get(handles.eqenable,'Value')
+        case 1
+            handles.equalizedSignal = handles.mPEQ(handles.originalSignal);
+            handles.deviceWriter(handles.equalizedSignal);
+        case 0
+            handles.deviceWriter(handles.originalSignal);
+    end
+end
+% releasing
+if isfield(handles,'fileReader')&&isDone(handles.fileReader)
+    release(handles.fileReader)
+end
+if isfield(handles,'deviceWriter')&&isDone(handles.fileReader)
+    release(handles.deviceWriter)
+end
+guidata(hObject, handles);
+
+% --- Executes on button press in pausebutton1.
+function pausebutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to pausebutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+pause();
+guidata(hObject, handles);
+
+% --- Executes on button press in stopbutton1.
+function stopbutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to stopbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if isfield(handles,'fileReader')
+    release(handles.fileReader)
+end
+if isfield(handles,'deviceWriter')
+    release(handles.deviceWriter)
+end
+guidata(hObject,handles)
+
+
+% --- Executes on button press in exitbutton.
+function exitbutton_Callback(hObject, eventdata, handles)
+% hObject    handle to exitbutton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+close();
+
+% --- Executes on button press in playbutton2.
+function playbutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to playbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+while ~isDone(handles.fileReader)
+	handles.originalSignal = handles.fileReader();
+    switch get(handles.eqenable,'Value')
+        case 1
+            handles.equalizedSignal = handles.mPEQ(handles.originalSignal);
+            handles.deviceWriter(handles.equalizedSignal);
+        case 0
+            handles.deviceWriter(handles.originalSignal);
+    end
+end
+% releasing
+if isfield(handles,'fileReader')&&isDone(handles.fileReader)
+    release(handles.fileReader)
+end
+if isfield(handles,'deviceWriter')&&isDone(handles.fileReader)
+    release(handles.deviceWriter)
+end
+guidata(hObject, handles);
+
+% --- Executes on button press in pausebutton2.
+function pausebutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to pausebutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton4.
-function pushbutton4_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton4 (see GCBO)
+% --- Executes on button press in stopbutton2.
+function stopbutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to stopbutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton5.
-function pushbutton5_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton5 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton6.
-function pushbutton6_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton6 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton7.
-function pushbutton7_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton7 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton8.
-function pushbutton8_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton8 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton9.
-function pushbutton9_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton9 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton10.
-function pushbutton10_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton10 (see GCBO)
+% --- Executes on button press in savebutton.
+function savebutton_Callback(hObject, eventdata, handles)
+% hObject    handle to savebutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
 % --- Executes on slider movement.
-function slider11_Callback(hObject, eventdata, handles)
-% hObject    handle to slider11 (see GCBO)
+function slideruseless_Callback(hObject, eventdata, handles)
+% hObject    handle to slideruseless (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
@@ -397,8 +514,8 @@ function slider11_Callback(hObject, eventdata, handles)
 
 
 % --- Executes during object creation, after setting all properties.
-function slider11_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider11 (see GCBO)
+function slideruseless_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slideruseless (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -408,23 +525,66 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
 end
 
 
-% --- Executes on slider movement.
-function slider12_Callback(hObject, eventdata, handles)
-% hObject    handle to slider12 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'Value') returns position of slider
-%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
-
 % --- Executes during object creation, after setting all properties.
-function slider12_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider12 (see GCBO)
+function axes1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to axes1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
-% Hint: slider controls usually have a light gray background.
-if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor',[.9 .9 .9]);
+% Hint: place code in OpeningFcn to populate axes1
+
+
+% --- Executes on mouse press over axes background.
+function axes1_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to axes1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- If Enable == 'on', executes on mouse press in 5 pixel border.
+% --- Otherwise, executes on mouse press in 5 pixel border or over openbutton.
+function openbutton_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to openbutton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+% --- Executes on button press in eqenable.
+function eqenable_Callback(hObject, eventdata, handles)
+% hObject    handle to eqenable (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+eqval = get(hObject,'Value');
+switch eqval;
+    case 1
+        set(hObject,'String','EQ ON');
+    case 0
+        set(hObject,'String','EQ OFF');
 end
+% Hint: get(hObject,'Value') returns toggle state of eqenable
+
+
+% --- If Enable == 'on', executes on mouse press in 5 pixel border.
+% --- Otherwise, executes on mouse press in 5 pixel border or over eqenable.
+function eqenable_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to eqenable (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- If Enable == 'on', executes on mouse press in 5 pixel border.
+% --- Otherwise, executes on mouse press in 5 pixel border or over exitbutton.
+function exitbutton_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to exitbutton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes during object creation, after setting all properties.
+function axes2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to axes2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: place code in OpeningFcn to populate axes2
