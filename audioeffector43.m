@@ -22,7 +22,7 @@ function varargout = audioeffector43(varargin)
 
 % Edit the above text to modify the response to help audioeffector43
 
-% Last Modified by GUIDE v2.5 26-Oct-2016 03:04:11
+% Last Modified by GUIDE v2.5 26-Oct-2016 22:38:44
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -62,7 +62,6 @@ handles.mPEQ = multibandParametricEQ(...
     'HighShelfGain',-5,...
     'SampleRate',44100);
 guidata(hObject, handles);
-% visualize(handles.mPEQ);
 % there has a problem about fit the 'visualize' to a plot in gui.
 % 
 % Choose default command line output for audioeffector43
@@ -131,7 +130,7 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-
+ 
 % --- Executes on slider movement.
 function s127_Callback(hObject, eventdata, handles)
 % hObject    handle to s127 (see GCBO)
@@ -323,12 +322,15 @@ function openbutton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 % MATT the ifs below are judging the members in handles struct,
 % MATT if them exist, then release for opening a new file.
-if isfield(handles,'fileReader')
-    release(handles.fileReader)
-end
-if isfield(handles,'deviceWriter')
-    release(handles.deviceWriter)
-end
+% if isfield(handles,'fileReader')
+%     release(handles.fileReader)
+% end
+% if isfield(handles,'mPEQ')
+%     release(handles.mPEQ)
+% end
+% if isfield(handles,'deviceWriter')
+%     release(handles.deviceWriter)
+% end
 [filename,pathname]=uigetfile(...
     {'*.wav','WAV Files(*.wav)';...
     '*.*','All Files(*.*)'}, ...
@@ -338,16 +340,16 @@ if isequal(filename,0)||isequal(pathname,0)
 else
     set(handles.nowplay,'String',filename);
 end
-frameLength = 512;
-handles.fileReader = dsp.AudioFileReader(...
-    'Filename',filename,...
-    'SamplesPerFrame',frameLength);
-handles.deviceWriter = audioDeviceWriter(...
-    'SampleRate',handles.fileReader.SampleRate);
-setup(handles.deviceWriter,ones(frameLength,2));
+% frameLength = 512;
+% handles.fileReader = dsp.AudioFileReader(...
+%     'Filename',filename,...
+%     'SamplesPerFrame',frameLength);
+% handles.deviceWriter = audioDeviceWriter(...
+%     'SampleRate',handles.fileReader.SampleRate);
+% setup(handles.deviceWriter,ones(frameLength,2));
 [wave] = audioread(filename);
-waveplot = 0.5*(wave(1:length(wave))+wave(length(wave)+1:2*length(wave)));
-plot(handles.axes2,waveplot);
+set(handles.axes2,'YLim',[-1.0,1.0]);
+plot(handles.axes2,wave,'k');
 handles.filename = filename;
 guidata(hObject, handles);
 
@@ -377,8 +379,10 @@ handles.deviceWriter = audioDeviceWriter(...
     'SampleRate',handles.fileReader.SampleRate);
 setup(handles.deviceWriter,ones(frameLength,2));
 [wave] = audioread(denosingfilename);
-% waveplot = 0.5*(wave(1:length(wave))+wave(length(wave)+1:2*length(wave)));
-plot(handles.axes3,wave);
+set(handles.axes3,'YLim',[-1,1]);
+set(handles.axes3,'XLim',[0,length(wave)]);
+plot(handles.axes3,wave,'k');
+handles.denosingfilename = denosingfilename;
 guidata(hObject, handles);
 
 
@@ -410,8 +414,35 @@ function playbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to playbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-while ~isDone(handles.fileReader)
-	handles.originalSignal = handles.fileReader();
+global flag;
+if ~isfield(handles,'filename')
+    errordlg('Please select an audio file.','Error');
+    return;
+end
+nowstate = get(handles.pausebutton1,'String');
+if  strcmp(nowstate,'Continue')
+   set(handles.pausebutton1,'String','Pause');
+end
+if isfield(handles,'fileReader')
+    release(handles.fileReader)
+end
+if isfield(handles,'mPEQ')
+    release(handles.mPEQ)
+end
+if isfield(handles,'deviceWriter')
+    release(handles.deviceWriter)
+end
+
+frameLength = 512;
+handles.fileReader = dsp.AudioFileReader(...
+    'Filename',handles.filename,...
+    'SamplesPerFrame',frameLength);
+handles.deviceWriter = audioDeviceWriter(...
+    'SampleRate',handles.fileReader.SampleRate);
+setup(handles.deviceWriter,ones(frameLength,2));
+guidata(hObject, handles);
+while ~isDone(handles.fileReader)&&~flag
+    handles.originalSignal = handles.fileReader();
     switch get(handles.eqenable,'Value')
         case 1
             handles.equalizedSignal = handles.mPEQ(handles.originalSignal);
@@ -419,7 +450,9 @@ while ~isDone(handles.fileReader)
         case 0
             handles.deviceWriter(handles.originalSignal);
     end
+	pause(1e-2);
 end
+flag = 0;
 % releasing
 if isfield(handles,'fileReader')&&isDone(handles.fileReader)
     release(handles.fileReader)
@@ -427,28 +460,35 @@ end
 if isfield(handles,'deviceWriter')&&isDone(handles.fileReader)
     release(handles.deviceWriter)
 end
-guidata(hObject, handles);
 
 % --- Executes on button press in pausebutton1.
 function pausebutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pausebutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-pause();
-guidata(hObject, handles);
+nowstate = get(hObject,'String');
+if  strcmp(nowstate,'Continue')
+   set(hObject,'String','Pause');
+   uiresume;
+elseif strcmp(nowstate,'Pause')
+    set(hObject,'String','Continue');
+    uiwait;
+end
 
 % --- Executes on button press in stopbutton1.
 function stopbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to stopbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-if isfield(handles,'fileReader')
-    release(handles.fileReader)
+% delete(handles.fileReader);
+global flag;
+flag = 1;
+nowstate = get(handles.pausebutton1,'String');
+if  strcmp(nowstate,'Continue')
+   set(handles.pausebutton1,'String','Pause');
+   flag = 0;
 end
-if isfield(handles,'deviceWriter')
-    release(handles.deviceWriter)
-end
-guidata(hObject,handles)
+guidata(hObject, handles)
 
 
 % --- Executes on button press in exitbutton.
@@ -456,6 +496,9 @@ function exitbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to exitbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global flag;
+flag = 1;
+
 close();
 
 % --- Executes on button press in playbutton2.
@@ -463,6 +506,23 @@ function playbutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to playbutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+if isfield(handles,'fileReader')
+    release(handles.fileReader)
+end
+if isfield(handles,'mPEQ')
+    release(handles.mPEQ)
+end
+if isfield(handles,'deviceWriter')
+    release(handles.deviceWriter)
+end
+
+frameLength = 512;
+handles.fileReader = dsp.AudioFileReader(...
+    'Filename',handles.denosingfilename,...
+    'SamplesPerFrame',frameLength);
+handles.deviceWriter = audioDeviceWriter(...
+    'SampleRate',handles.fileReader.SampleRate);
+setup(handles.deviceWriter,ones(frameLength,2));
 while ~isDone(handles.fileReader)
 	handles.originalSignal = handles.fileReader();
     switch get(handles.eqenable,'Value')
@@ -481,6 +541,7 @@ if isfield(handles,'deviceWriter')&&isDone(handles.fileReader)
     release(handles.deviceWriter)
 end
 guidata(hObject, handles);
+
 
 % --- Executes on button press in pausebutton2.
 function pausebutton2_Callback(hObject, eventdata, handles)
@@ -588,3 +649,13 @@ function axes2_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: place code in OpeningFcn to populate axes2
+
+
+% --- Executes during object creation, after setting all properties.
+function stopbutton1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to stopbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+global flag;
+flag = 0;
+guidata(hObject, handles);
