@@ -22,7 +22,7 @@ function varargout = audioeffector43(varargin)
 
 % Edit the above text to modify the response to help audioeffector43
 
-% Last Modified by GUIDE v2.5 27-Oct-2016 14:40:43
+% Last Modified by GUIDE v2.5 27-Oct-2016 23:49:32
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -341,12 +341,78 @@ switch val
     case 1
         return;
     case 2
-        genefilename = denosing(handles.filename);
+        genefilename = offsetdenoising(handles.filename);
+    case 3
+        genefilename = icadenoising(handles.filename);
+    case 4
+        if isfield(handles,'coordinatefile')
+            [genefilename,~] = separating(handles.filename,handles.coordinatefile);
+        else
+            [coordinatefile,pathname]=uigetfile(...
+                {'*.wav','WAV Files(*.wav)';...
+                '*.*','All Files(*.*)'}, ...
+                'Select the coordinate file');
+            if isequal(coordinatefile,0)||isequal(pathname,0)
+                return;
+            else
+                handles.coordinatefile = coordinatefile;
+                [genefilename,~] = separating(handles.filename,coordinatefile); 
+                guidata(hObject,handles);
+            end
+        end
+    case 5
+        if isfield(handles,'coordinatefile')
+            [~,genefilename] = separating(handles.filename,handles.coordinatefile);
+        else
+            [coordinatefile,pathname]=uigetfile(...
+                {'*.wav','WAV Files(*.wav)';...
+                '*.*','All Files(*.*)'}, ...
+                'Select the coordinate file');
+            if isequal(coordinatefile,0)||isequal(pathname,0)
+                return;
+            else
+                handles.coordinatefile = coordinatefile;
+                [~,genefilename] = separating(handles.filename,coordinatefile); 
+                guidata(hObject,handles);
+            end
+        end
+    case 6
+        if isfield(handles,'coordinatefile')
+            [genefilename,~] = separating(handles.filename,handles.coordinatefile);
+        else
+            [coordinatefile,pathname]=uigetfile(...
+                {'*.wav','WAV Files(*.wav)';...
+                '*.*','All Files(*.*)'}, ...
+                'Select the coordinate file');
+            if isequal(coordinatefile,0)||isequal(pathname,0)
+                return;
+            else
+                handles.coordinatefile = coordinatefile;
+                [genefilename,~] = separating(handles.filename,coordinatefile); 
+                guidata(hObject,handles);
+            end
+        end
+    case 7
+        if isfield(handles,'coordinatefile')
+            [~,genefilename] = separating(handles.filename,handles.coordinatefile);
+        else
+            [coordinatefile,pathname]=uigetfile(...
+                {'*.wav','WAV Files(*.wav)';...
+                '*.*','All Files(*.*)'}, ...
+                'Select the coordinate file');
+            if isequal(coordinatefile,0)||isequal(pathname,0)
+                return;
+            else
+                handles.coordinatefile = coordinatefile;
+                [~,genefilename] = separating(handles.filename,coordinatefile); 
+                guidata(hObject,handles);
+            end
+        end
 end
 if isfield(handles,'fileReader')
     release(handles.fileReader)
 end
-if isfield(handles,'deviceWriter')
+if isfield(handles,'deviceWriter') 
     release(handles.deviceWriter)
 end
 frameLength = 512;
