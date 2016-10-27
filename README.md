@@ -2,7 +2,7 @@
 
 Hello everyone.<br />
 audioeffector43.project is a course project 
-of digital signal processing(short by DSP). 
+of dsp. 
 Our team decided to creat a audio effector 
 which is able to do something about noise 
 reduction, speech-speech/speech-music
