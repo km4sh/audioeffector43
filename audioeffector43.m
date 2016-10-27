@@ -22,7 +22,7 @@ function varargout = audioeffector43(varargin)
 
 % Edit the above text to modify the response to help audioeffector43
 
-% Last Modified by GUIDE v2.5 26-Oct-2016 22:38:44
+% Last Modified by GUIDE v2.5 27-Oct-2016 14:40:43
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -42,7 +42,6 @@ else
     gui_mainfcn(gui_State, varargin{:});
 end
 % End initialization code - DO NOT EDIT
-
 
 % --- Executes just before audioeffector43 is made visible.
 function audioeffector43_OpeningFcn(hObject, eventdata, handles, varargin)
@@ -73,7 +72,6 @@ guidata(hObject, handles);
 % UIWAIT makes audioeffector43 wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
-
 % --- Outputs from this function are returned to the command line.
 function varargout = audioeffector43_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
@@ -84,7 +82,6 @@ function varargout = audioeffector43_OutputFcn(hObject, eventdata, handles)
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
-
 % --- Executes on slider movement.
 function s31_Callback(hObject, eventdata, handles)
 % hObject    handle to s31 (see GCBO)
@@ -94,7 +91,6 @@ handles.mPEQ.PeakGains(1) = get(hObject,'Value');
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
 
 % --- Executes during object creation, after setting all properties.
 function s31_CreateFcn(hObject, eventdata, handles)
@@ -107,7 +103,6 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-
 % --- Executes on slider movement.
 function s63_Callback(hObject, eventdata, handles)
 % hObject    handle to s63 (see GCBO)
@@ -117,7 +112,6 @@ handles.mPEQ.PeakGains(2) = get(hObject,'Value');
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
 
 % --- Executes during object creation, after setting all properties.
 function s63_CreateFcn(hObject, eventdata, handles)
@@ -129,7 +123,6 @@ function s63_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
-
  
 % --- Executes on slider movement.
 function s127_Callback(hObject, eventdata, handles)
@@ -140,7 +133,6 @@ handles.mPEQ.PeakGains(3) = get(hObject,'Value');
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
 
 % --- Executes during object creation, after setting all properties.
 function s127_CreateFcn(hObject, eventdata, handles)
@@ -153,7 +145,6 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-
 % --- Executes on slider movement.
 function s255_Callback(hObject, eventdata, handles)
 % hObject    handle to s255 (see GCBO)
@@ -163,7 +154,6 @@ handles.mPEQ.PeakGains(4) = get(hObject,'Value');
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
 
 % --- Executes during object creation, after setting all properties.
 function s255_CreateFcn(hObject, eventdata, handles)
@@ -176,7 +166,6 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-
 % --- Executes on slider movement.
 function s511_Callback(hObject, eventdata, handles)
 % hObject    handle to s511 (see GCBO)
@@ -186,7 +175,6 @@ handles.mPEQ.PeakGains(5) = get(hObject,'Value');
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
 
 % --- Executes during object creation, after setting all properties.
 function s511_CreateFcn(hObject, eventdata, handles)
@@ -199,7 +187,6 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-
 % --- Executes on slider movement.
 function s1k_Callback(hObject, eventdata, handles)
 % hObject    handle to s1k (see GCBO)
@@ -209,7 +196,6 @@ handles.mPEQ.PeakGains(6) = get(hObject,'Value');
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
 
 % --- Executes during object creation, after setting all properties.
 function s1k_CreateFcn(hObject, eventdata, handles)
@@ -222,7 +208,6 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-
 % --- Executes on slider movement.
 function s2k_Callback(hObject, eventdata, handles)
 % hObject    handle to s2k (see GCBO)
@@ -232,7 +217,6 @@ handles.mPEQ.PeakGains(7) = get(hObject,'Value');
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
 
 % --- Executes during object creation, after setting all properties.
 function s2k_CreateFcn(hObject, eventdata, handles)
@@ -245,7 +229,6 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-
 % --- Executes on slider movement.
 function s4k_Callback(hObject, eventdata, handles)
 % hObject    handle to s4k (see GCBO)
@@ -255,7 +238,6 @@ handles.mPEQ.PeakGains(8) = get(hObject,'Value');
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
 
 % --- Executes during object creation, after setting all properties.
 function s4k_CreateFcn(hObject, eventdata, handles)
@@ -268,7 +250,6 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-
 % --- Executes on slider movement.
 function s8k_Callback(hObject, eventdata, handles)
 % hObject    handle to s8k (see GCBO)
@@ -278,7 +259,6 @@ handles.mPEQ.PeakGains(9) = get(hObject,'Value');
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
 
 % --- Executes during object creation, after setting all properties.
 function s8k_CreateFcn(hObject, eventdata, handles)
@@ -291,7 +271,6 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-
 % --- Executes on slider movement.
 function s16k_Callback(hObject, eventdata, handles)
 % hObject    handle to s16k (see GCBO)
@@ -301,7 +280,6 @@ handles.mPEQ.PeakGains(10) = get(hObject,'Value');
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
 
 % --- Executes during object creation, after setting all properties.
 function s16k_CreateFcn(hObject, eventdata, handles)
@@ -313,7 +291,6 @@ function s16k_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
-
 
 % --- Executes on button press in openbutton.
 function openbutton_Callback(hObject, eventdata, handles)
@@ -348,8 +325,9 @@ end
 %     'SampleRate',handles.fileReader.SampleRate);
 % setup(handles.deviceWriter,ones(frameLength,2));
 [wave] = audioread(filename);
-set(handles.axes2,'YLim',[-1.0,1.0]);
 plot(handles.axes2,wave,'k');
+set(handles.axes2,'YLim',[-1.0 1.0]);
+set(handles.axes2,'XLim',[0.0 length(wave)]);
 handles.filename = filename;
 guidata(hObject, handles);
 
@@ -363,7 +341,7 @@ switch val
     case 1
         return;
     case 2
-        denosingfilename = denosing(handles.filename);
+        genefilename = denosing(handles.filename);
 end
 if isfield(handles,'fileReader')
     release(handles.fileReader)
@@ -373,28 +351,17 @@ if isfield(handles,'deviceWriter')
 end
 frameLength = 512;
 handles.fileReader = dsp.AudioFileReader(...
-    'Filename',denosingfilename,...
+    'Filename',genefilename,...
     'SamplesPerFrame',frameLength);
 handles.deviceWriter = audioDeviceWriter(...
     'SampleRate',handles.fileReader.SampleRate);
 setup(handles.deviceWriter,ones(frameLength,2));
-[wave] = audioread(denosingfilename);
+[wave] = audioread(genefilename);
+plot(handles.axes3,wave,'k');
 set(handles.axes3,'YLim',[-1,1]);
 set(handles.axes3,'XLim',[0,length(wave)]);
-plot(handles.axes3,wave,'k');
-handles.denosingfilename = denosingfilename;
+handles.genefilename = genefilename;
 guidata(hObject, handles);
-
-
-% --- Executes on selection change in popupmenu1.
-function popupmenu1_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu1 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu1
-
 
 % --- Executes during object creation, after setting all properties.
 function popupmenu1_CreateFcn(hObject, eventdata, handles)
@@ -407,7 +374,6 @@ function popupmenu1_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-
 
 % --- Executes on button press in playbutton1.
 function playbutton1_Callback(hObject, eventdata, handles)
@@ -488,8 +454,7 @@ if  strcmp(nowstate,'Continue')
    set(handles.pausebutton1,'String','Pause');
    flag = 0;
 end
-guidata(hObject, handles)
-
+guidata(hObject, handles);
 
 % --- Executes on button press in exitbutton.
 function exitbutton_Callback(hObject, eventdata, handles)
@@ -498,7 +463,6 @@ function exitbutton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global flag;
 flag = 1;
-
 close();
 
 % --- Executes on button press in playbutton2.
@@ -506,6 +470,11 @@ function playbutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to playbutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global flag;
+nowstate = get(handles.pausebutton2,'String');
+if  strcmp(nowstate,'Continue')
+   set(handles.pausebutton2,'String','Pause');
+end
 if isfield(handles,'fileReader')
     release(handles.fileReader)
 end
@@ -518,13 +487,14 @@ end
 
 frameLength = 512;
 handles.fileReader = dsp.AudioFileReader(...
-    'Filename',handles.denosingfilename,...
+    'Filename',handles.genefilename,...
     'SamplesPerFrame',frameLength);
 handles.deviceWriter = audioDeviceWriter(...
     'SampleRate',handles.fileReader.SampleRate);
 setup(handles.deviceWriter,ones(frameLength,2));
-while ~isDone(handles.fileReader)
-	handles.originalSignal = handles.fileReader();
+guidata(hObject, handles);
+while ~isDone(handles.fileReader)&&~flag
+    handles.originalSignal = handles.fileReader();
     switch get(handles.eqenable,'Value')
         case 1
             handles.equalizedSignal = handles.mPEQ(handles.originalSignal);
@@ -532,7 +502,9 @@ while ~isDone(handles.fileReader)
         case 0
             handles.deviceWriter(handles.originalSignal);
     end
+	pause(1e-2);
 end
+flag = 0;
 % releasing
 if isfield(handles,'fileReader')&&isDone(handles.fileReader)
     release(handles.fileReader)
@@ -540,39 +512,40 @@ end
 if isfield(handles,'deviceWriter')&&isDone(handles.fileReader)
     release(handles.deviceWriter)
 end
-guidata(hObject, handles);
-
 
 % --- Executes on button press in pausebutton2.
 function pausebutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to pausebutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+nowstate = get(hObject,'String');
+if  strcmp(nowstate,'Continue')
+   set(hObject,'String','Pause');
+   uiresume;
+elseif strcmp(nowstate,'Pause')
+    set(hObject,'String','Continue');
+    uiwait;
+end
 
 % --- Executes on button press in stopbutton2.
 function stopbutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to stopbutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global flag;
+flag = 1;
+nowstate = get(handles.pausebutton2,'String');
+if  strcmp(nowstate,'Continue')
+   set(handles.pausebutton2,'String','Pause');
+   flag = 0;
+end
+guidata(hObject, handles);
 
-
-% --- Executes on button press in savebutton.
-function savebutton_Callback(hObject, eventdata, handles)
-% hObject    handle to savebutton (see GCBO)
+% --- Executes on button press in infobutton.
+function infobutton_Callback(hObject, eventdata, handles)
+% hObject    handle to infobutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on slider movement.
-function slideruseless_Callback(hObject, eventdata, handles)
-% hObject    handle to slideruseless (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'Value') returns position of slider
-%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
 
 % --- Executes during object creation, after setting all properties.
 function slideruseless_CreateFcn(hObject, eventdata, handles)
@@ -585,71 +558,19 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-
-% --- Executes during object creation, after setting all properties.
-function axes1_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to axes1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: place code in OpeningFcn to populate axes1
-
-
-% --- Executes on mouse press over axes background.
-function axes1_ButtonDownFcn(hObject, eventdata, handles)
-% hObject    handle to axes1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- If Enable == 'on', executes on mouse press in 5 pixel border.
-% --- Otherwise, executes on mouse press in 5 pixel border or over openbutton.
-function openbutton_ButtonDownFcn(hObject, eventdata, handles)
-% hObject    handle to openbutton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-
 % --- Executes on button press in eqenable.
 function eqenable_Callback(hObject, eventdata, handles)
 % hObject    handle to eqenable (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 eqval = get(hObject,'Value');
-switch eqval;
+switch eqval
     case 1
         set(hObject,'String','EQ ON');
     case 0
         set(hObject,'String','EQ OFF');
 end
 % Hint: get(hObject,'Value') returns toggle state of eqenable
-
-
-% --- If Enable == 'on', executes on mouse press in 5 pixel border.
-% --- Otherwise, executes on mouse press in 5 pixel border or over eqenable.
-function eqenable_ButtonDownFcn(hObject, eventdata, handles)
-% hObject    handle to eqenable (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- If Enable == 'on', executes on mouse press in 5 pixel border.
-% --- Otherwise, executes on mouse press in 5 pixel border or over exitbutton.
-function exitbutton_ButtonDownFcn(hObject, eventdata, handles)
-% hObject    handle to exitbutton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes during object creation, after setting all properties.
-function axes2_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to axes2 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: place code in OpeningFcn to populate axes2
-
 
 % --- Executes during object creation, after setting all properties.
 function stopbutton1_CreateFcn(hObject, eventdata, handles)
@@ -658,4 +579,3 @@ function stopbutton1_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 global flag;
 flag = 0;
-guidata(hObject, handles);
