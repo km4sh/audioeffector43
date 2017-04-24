@@ -22,7 +22,7 @@ function varargout = audioeffector43(varargin)
 
 % Edit the above text to modify the response to help audioeffector43
 
-% Last Modified by GUIDE v2.5 27-Oct-2016 14:40:43
+% Last Modified by GUIDE v2.5 18-Apr-2017 19:31:57
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -50,19 +50,34 @@ function audioeffector43_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to audioeffector43 (see VARARGIN)
-handles.mPEQ = multibandParametricEQ(...
-    'NumEQBands',10,...
-    'Frequencies',[31,63,127,255,511,1023,2047,4095,8191,16383],...
-    'QualityFactors',[1,1,1,1,1,1,1,1,1,1],...
-    'PeakGains',[0,0,0,0,0,0,0,0,0,0],...
-    'HasHighShelfFilter',true,...
-    'HighShelfCutoff',14000,...
-    'HighShelfSlope',0.3,...
-    'HighShelfGain',-5,...
-    'SampleRate',44100);
+% $$$ handles.mPEQ = multibandParametricEQ(...
+% $$$     'NumEQBands',10,...
+% $$$     'Frequencies', [31,63,127,255,511,1023,2047,4095,8191,16383],...
+% $$$     'QualityFactors',[1,1,1,1,1,1,1,1,1,1],...
+% $$$     'PeakGains',[0,0,0,0,0,0,0,0,0,0],...
+% $$$     'HasHighShelfFilter',true,...
+% $$$     'HighShelfCutoff',14000,...
+% $$$     'HighShelfSlope',0.3,...
+% $$$     'HighShelfGain',-5,...
+% $$$     'SampleRate',44100);
+% $$$
+handles.fs = 44100;
+handles.order = 8;
+handles.orders = 2*ones(1,10);
+handles.frequencies = [31,63,127,255,511,1023,2047,4095,8191, ...
+                    16383];
+handles.qualityfactors = 1.5*ones(1,10);
+handles.gains = zeros(1,10); % by default
+handles.bandwidth = handles.frequencies ./ handles.qualityfactors;
+handles.mPEQ = dsp.BiquadFilter(...
+    'SOSMatrixSource','Input port',...
+    'ScaleValuesInputPort',false);
+[handles.b,handles.a] = designParamEQ(handles.orders, ...
+                                      handles.gains,handles.frequencies,handles.bandwidth);
+handles.orisos = [handles.b',[ones(sum(handles.orders)/2,1),handles.a']];
 guidata(hObject, handles);
 % there has a problem about fit the 'visualize' to a plot in gui.
-% 
+%
 % Choose default command line output for audioeffector43
 handles.output = hObject;
 
@@ -73,7 +88,7 @@ guidata(hObject, handles);
 % uiwait(handles.figure1);
 
 % --- Outputs from this function are returned to the command line.
-function varargout = audioeffector43_OutputFcn(hObject, eventdata, handles) 
+function varargout = audioeffector43_OutputFcn(hObject, eventdata, handles)
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -87,7 +102,8 @@ function s31_Callback(hObject, eventdata, handles)
 % hObject    handle to s31 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.mPEQ.PeakGains(1) = get(hObject,'Value');
+handles.gains(1) = get(hObject,'Value');
+[handles.b,handles.a] = designParamEQ(handles.orders,handles.gains,handles.frequencies,handles.bandwidth);
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
@@ -108,7 +124,8 @@ function s63_Callback(hObject, eventdata, handles)
 % hObject    handle to s63 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.mPEQ.PeakGains(2) = get(hObject,'Value');
+handles.gains(2) = get(hObject,'Value');
+[handles.b,handles.a] = designParamEQ(handles.orders,handles.gains,handles.frequencies,handles.bandwidth);
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
@@ -123,13 +140,14 @@ function s63_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
- 
+
 % --- Executes on slider movement.
 function s127_Callback(hObject, eventdata, handles)
 % hObject    handle to s127 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.mPEQ.PeakGains(3) = get(hObject,'Value');
+handles.gains(3) = get(hObject,'Value');
+[handles.b,handles.a] = designParamEQ(handles.orders,handles.gains,handles.frequencies,handles.bandwidth);
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
@@ -150,7 +168,8 @@ function s255_Callback(hObject, eventdata, handles)
 % hObject    handle to s255 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.mPEQ.PeakGains(4) = get(hObject,'Value');
+handles.gains(4) = get(hObject,'Value');
+[handles.b,handles.a] = designParamEQ(handles.orders,handles.gains,handles.frequencies,handles.bandwidth);
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
@@ -171,7 +190,8 @@ function s511_Callback(hObject, eventdata, handles)
 % hObject    handle to s511 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.mPEQ.PeakGains(5) = get(hObject,'Value');
+handles.gains(5) = get(hObject,'Value');
+[handles.b,handles.a] = designParamEQ(handles.orders,handles.gains,handles.frequencies,handles.bandwidth);
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
@@ -192,7 +212,8 @@ function s1k_Callback(hObject, eventdata, handles)
 % hObject    handle to s1k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.mPEQ.PeakGains(6) = get(hObject,'Value');
+handles.gains(6) = get(hObject,'Value');
+[handles.b,handles.a] = designParamEQ(handles.orders,handles.gains,handles.frequencies,handles.bandwidth);
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
@@ -213,7 +234,8 @@ function s2k_Callback(hObject, eventdata, handles)
 % hObject    handle to s2k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.mPEQ.PeakGains(7) = get(hObject,'Value');
+handles.gains(7) = get(hObject,'Value');
+[handles.b,handles.a] = designParamEQ(handles.orders,handles.gains,handles.frequencies,handles.bandwidth);
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
@@ -234,7 +256,8 @@ function s4k_Callback(hObject, eventdata, handles)
 % hObject    handle to s4k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.mPEQ.PeakGains(8) = get(hObject,'Value');
+handles.gains(8) = get(hObject,'Value');
+[handles.b,handles.a] = designParamEQ(handles.orders,handles.gains,handles.frequencies,handles.bandwidth);
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
@@ -255,7 +278,8 @@ function s8k_Callback(hObject, eventdata, handles)
 % hObject    handle to s8k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.mPEQ.PeakGains(9) = get(hObject,'Value');
+handles.gains(9) = get(hObject,'Value');
+[handles.b,handles.a] = designParamEQ(handles.orders,handles.gains,handles.frequencies,handles.bandwidth);
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
@@ -276,7 +300,8 @@ function s16k_Callback(hObject, eventdata, handles)
 % hObject    handle to s16k (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.mPEQ.PeakGains(10) = get(hObject,'Value');
+handles.gains(10) = get(hObject,'Value');
+[handles.b,handles.a] = designParamEQ(handles.orders,handles.gains,handles.frequencies,handles.bandwidth);
 guidata(hObject,handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
@@ -310,25 +335,21 @@ function openbutton_Callback(hObject, eventdata, handles)
 % end
 [filename,pathname]=uigetfile(...
     {'*.wav','WAV Files(*.wav)';...
-    '*.*','All Files(*.*)'}, ...
+     '*.*','All Files(*.*)'}, ...
     'Select a *.wav file');
 if isequal(filename,0)||isequal(pathname,0)
     return;
 else
     set(handles.nowplay,'String',filename);
 end
-% frameLength = 512;
-% handles.fileReader = dsp.AudioFileReader(...
-%     'Filename',filename,...
-%     'SamplesPerFrame',frameLength);
-% handles.deviceWriter = audioDeviceWriter(...
-%     'SampleRate',handles.fileReader.SampleRate);
-% setup(handles.deviceWriter,ones(frameLength,2));
-[wave] = audioread(filename);
+[wave,fs] = audioread(filename);
+handles.frequencies = handles.frequencies * (2*pi/fs);
+handles.bandwidth = handles.bandwidth * (2*pi/fs);
 plot(handles.axes2,wave,'k');
 set(handles.axes2,'YLim',[-1.0 1.0]);
 set(handles.axes2,'XLim',[0.0 length(wave)]);
 handles.filename = filename;
+handles.fs = fs;
 guidata(hObject, handles);
 
 % --- Executes on button press in generatebutton.
@@ -338,17 +359,25 @@ function generatebutton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 val = get(handles.popupmenu1,'Value');
 switch val
-    case 1
-        return;
-    case 2
-        genefilename = denosing(handles.filename);
+  case 1
+    return;
+  case 2
+    ori = audioread(handles.filename);
+    equ = dsp.BiquadFilter('SOSMatrix',handles.orisos);
+    sig = equ(ori,handles.b,handles.a);
+    audiowrite(['equalized_',handles.filename],sig,handles.fs);
+    genefilename = ['equalized_',handles.filename];
+    guidata(hObject,handles);
+  case 3
+    handles.orisos = [handles.b',[ones(sum(handles.orders)/2,1),handles.a']];
+    [genefilename,allpass] = compensating(handles.filename, ...
+                                          handles.orisos, ...
+                                          handles.order, ...
+                                          handles.frequencies);
+    handles.allpass = allpass;
+    guidata(hObject,handles);
 end
-if isfield(handles,'fileReader')
-    release(handles.fileReader)
-end
-if isfield(handles,'deviceWriter')
-    release(handles.deviceWriter)
-end
+
 frameLength = 512;
 handles.fileReader = dsp.AudioFileReader(...
     'Filename',genefilename,...
@@ -369,7 +398,7 @@ function popupmenu1_CreateFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
-% Hint: popupmenu controls usually have a white background on Windows.
+% Hint: popupmenu1 controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
@@ -387,7 +416,7 @@ if ~isfield(handles,'filename')
 end
 nowstate = get(handles.pausebutton1,'String');
 if  strcmp(nowstate,'Continue')
-   set(handles.pausebutton1,'String','Pause');
+    set(handles.pausebutton1,'String','Pause');
 end
 if isfield(handles,'fileReader')
     release(handles.fileReader)
@@ -399,7 +428,7 @@ if isfield(handles,'deviceWriter')
     release(handles.deviceWriter)
 end
 
-frameLength = 512;
+frameLength = 1024;
 handles.fileReader = dsp.AudioFileReader(...
     'Filename',handles.filename,...
     'SamplesPerFrame',frameLength);
@@ -410,13 +439,13 @@ guidata(hObject, handles);
 while ~isDone(handles.fileReader)&&~flag
     handles.originalSignal = handles.fileReader();
     switch get(handles.eqenable,'Value')
-        case 1
-            handles.equalizedSignal = handles.mPEQ(handles.originalSignal);
-            handles.deviceWriter(handles.equalizedSignal);
-        case 0
-            handles.deviceWriter(handles.originalSignal);
+      case 1
+        handles.equalizedSignal = handles.mPEQ(handles.originalSignal,handles.b,handles.a);
+        handles.deviceWriter(handles.equalizedSignal);
+      case 0
+        handles.deviceWriter(handles.originalSignal);
     end
-	pause(1e-2);
+    pause(2e-2);
 end
 flag = 0;
 % releasing
@@ -434,8 +463,8 @@ function pausebutton1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 nowstate = get(hObject,'String');
 if  strcmp(nowstate,'Continue')
-   set(hObject,'String','Pause');
-   uiresume;
+    set(hObject,'String','Pause');
+    uiresume;
 elseif strcmp(nowstate,'Pause')
     set(hObject,'String','Continue');
     uiwait;
@@ -451,8 +480,8 @@ global flag;
 flag = 1;
 nowstate = get(handles.pausebutton1,'String');
 if  strcmp(nowstate,'Continue')
-   set(handles.pausebutton1,'String','Pause');
-   flag = 0;
+    set(handles.pausebutton1,'String','Pause');
+    flag = 0;
 end
 guidata(hObject, handles);
 
@@ -473,7 +502,7 @@ function playbutton2_Callback(hObject, eventdata, handles)
 global flag;
 nowstate = get(handles.pausebutton2,'String');
 if  strcmp(nowstate,'Continue')
-   set(handles.pausebutton2,'String','Pause');
+    set(handles.pausebutton2,'String','Pause');
 end
 if isfield(handles,'fileReader')
     release(handles.fileReader)
@@ -495,14 +524,8 @@ setup(handles.deviceWriter,ones(frameLength,2));
 guidata(hObject, handles);
 while ~isDone(handles.fileReader)&&~flag
     handles.originalSignal = handles.fileReader();
-    switch get(handles.eqenable,'Value')
-        case 1
-            handles.equalizedSignal = handles.mPEQ(handles.originalSignal);
-            handles.deviceWriter(handles.equalizedSignal);
-        case 0
-            handles.deviceWriter(handles.originalSignal);
-    end
-	pause(1e-2);
+    handles.deviceWriter(handles.originalSignal);
+    pause(1e-2);
 end
 flag = 0;
 % releasing
@@ -520,8 +543,8 @@ function pausebutton2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 nowstate = get(hObject,'String');
 if  strcmp(nowstate,'Continue')
-   set(hObject,'String','Pause');
-   uiresume;
+    set(hObject,'String','Pause');
+    uiresume;
 elseif strcmp(nowstate,'Pause')
     set(hObject,'String','Continue');
     uiwait;
@@ -536,8 +559,8 @@ global flag;
 flag = 1;
 nowstate = get(handles.pausebutton2,'String');
 if  strcmp(nowstate,'Continue')
-   set(handles.pausebutton2,'String','Pause');
-   flag = 0;
+    set(handles.pausebutton2,'String','Pause');
+    flag = 0;
 end
 guidata(hObject, handles);
 
@@ -565,10 +588,10 @@ function eqenable_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 eqval = get(hObject,'Value');
 switch eqval
-    case 1
-        set(hObject,'String','EQ ON');
-    case 0
-        set(hObject,'String','EQ OFF');
+  case 1
+    set(hObject,'String','EQ ON');
+  case 0
+    set(hObject,'String','EQ OFF');
 end
 % Hint: get(hObject,'Value') returns toggle state of eqenable
 
@@ -579,3 +602,102 @@ function stopbutton1_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 global flag;
 flag = 0;
+
+
+
+function orderedit_Callback(hObject, eventdata, handles)
+% hObject    handle to orderedit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of orderedit as text
+%        str2double(get(hObject,'String')) returns contents of orderedit as a double
+order = str2num(get(hObject,'String'));
+handles.order = order;
+guidata(hObject, handles);
+
+% --- Executes during object creation, after setting all properties.
+function orderedit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to orderedit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in fvtoolbutton.
+function fvtoolbutton_Callback(hObject, eventdata, handles)
+% hObject    handle to fvtoolbutton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+if ~isfield(handles,'allpass')
+    errordlg('Please generate it first.','Error');
+    return;
+else
+    fvtool(handles.allpass,...
+           'Fs',handles.fs,...
+           'FrequencyScale','Log');
+    guidata(hObject,handles);
+end
+
+% --- Executes on button press in fvtool2button.
+function fvtool2button_Callback(hObject, eventdata, handles)
+% hObject    handle to fvtool2button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+SOS = [handles.b',[ones(sum(handles.orders)/2,1),handles.a']];
+fvtool(SOS,...
+       'Fs',handles.fs,...
+       'FrequencyScale','Log');
+handles.orisos = SOS;
+guidata(hObject,handles);
+
+
+% --- Executes on button press in save1button.
+function save1button_Callback(hObject, eventdata, handles)
+% hObject    handle to save1button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in save2button.
+function save2button_Callback(hObject, eventdata, handles)
+% hObject    handle to save2button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+B = handles.b;
+A = handles.a;
+f = handles.frequencies;
+g = handles.gains;
+b = handles.bandwidth;
+uisave({'B','A','f','g','b'},'equalizer');
+
+% --- Executes during object creation, after setting all properties.
+function figure1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns czalled
+
+
+% --- Executes on button press in sumbutton.
+function sumbutton_Callback(hObject, eventdata, handles)
+% hObject    handle to sumbutton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if ~isfield(handles,'allpass')
+    errordlg('Please generate a allpass filter first.','Error');
+    return;
+else
+    p = 0:0.001:1;
+    [g1,f] = grpdelay(handles.allpass,p,handles.fs);
+    [g2,f] = grpdelay(handles.orisos,p,handles.fs);
+    figure(1);
+    plot(f,g1+g2,'b',f,g1,'k',f,g2,'r');
+    grid on;
+    axis([0 1 0 max(cell2mat({g1+g2,g1,g2}))+2]);
+end
