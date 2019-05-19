@@ -14,5 +14,5 @@ Archlinux/Matlab/Octave(for test)<br />
 <br>Oct 19.</br>
 <br>Done: </br>
 <br>denoising (a43.wav)</br>
-<br>      separating (b32.wav c32.wav)(using Fast ICA)</br>
+<br>      separating (b43.wav c43.wav)(using Fast ICA)</br>
       
